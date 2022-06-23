@@ -10,3 +10,10 @@ wks = gc.open("google api").sheet1
 #     wks.update('A', [1, 2])
 # wks.update('A1', [[1, 2], [3,4]])
 
+testsite_array = []
+with open('facts.txt') as my_file:
+    for line in my_file:
+        testsite_array.append(line)
+
+print(testsite_array[41])
+
