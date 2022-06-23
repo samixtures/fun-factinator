@@ -15,5 +15,6 @@ with open('facts.txt') as my_file:
     for line in my_file:
         testsite_array.append(line)
 
-print(testsite_array[41])
+for i in range(1, len(testsite_array)+1):
+    wks.update_cell(i, 1, testsite_array[i-1])
 
