@@ -8,8 +8,9 @@ import gspread
 gc = gspread.service_account('credentials.json')
 wks = gc.open("google api").sheet1
 
-
+#Gets the next tweet from the spreadsheet
 next_tweet = wks.acell('A1').value
+tweet_length = len(next_tweet) # counts characters of tweet
 
 # Fills testsite_array with each line of facts.txt (41 indices)
 if next_tweet == "":
@@ -29,6 +30,19 @@ client = tweepy.Client(
     access_token_secret=config.access_token_secret
 )
 
+# If the length of the tweet exceeds the max twitter character count: delete the first row of the spreadsheet
+    # and set the "next_tweet" variable to the new first row of the spreadsheet
+while tweet_length > 280:
+    #Delete the first row so there's a new A1 cell
+    wks.delete_rows(1)
+    print("New A1 value:", wks.acell('A1').value, sep="\n")
+    #Gets the next tweet from the spreadsheet
+    next_tweet = wks.acell('A1').value
+    tweet_length = len(next_tweet) # counts characters of tweet
+
+
+
+#THE ACTUAL CREATION OF THE TWEET
 response = client.create_tweet(text=next_tweet)
 
 print("Text we're tweeting (A1 value):", next_tweet, sep="\n")
